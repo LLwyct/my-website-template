@@ -1,11 +1,21 @@
 <template>
-  <div>
-    <h1>Register</h1>
-    <input type="email" v-model="email" placeholder="email">
-    <input type="password" v-model="password" placeholder="password">
-    <button @click="register">Register</button>
-    <div v-html="error" class="error"></div>
-  </div>
+    <v-container>
+      <v-layout align-center justify-center>
+        <v-flex md6>
+          <div class="white elevation-2" column>
+            <v-toolbar>
+              <v-toolbar-title>注册</v-toolbar-title>
+            </v-toolbar>
+            <v-layout column class="pl-4 pr-4 pt-2 pb-2">
+              <v-text-field type="email" v-model="email" placeholder="email"></v-text-field>
+              <v-text-field type="password" v-model="password" placeholder="password"></v-text-field>
+              <v-btn color="primary" @click="register">注册</v-btn>
+            </v-layout>
+          </div>
+        </v-flex>
+      </v-layout>
+      <div v-html="error" class="error"></div>
+    </v-container>
 </template>
 
 <script>
@@ -37,21 +47,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1,
-h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
 .class {
   color: red;
 }
