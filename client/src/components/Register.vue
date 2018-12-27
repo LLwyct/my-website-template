@@ -4,6 +4,7 @@
     <input type="email" v-model="email" placeholder="email">
     <input type="password" v-model="password" placeholder="password">
     <button @click="register">Register</button>
+    <div v-html="error" class="error"></div>
   </div>
 </template>
 
@@ -14,16 +15,21 @@ export default {
   data () {
     return {
       email: '',
-      password: ''
+      password: '',
+      error: null
     }
   },
   methods: {
     async register () {
-      const response = await AuthenticationService.register({
-        email: this.email,
-        password: this.password
-      })
-      console.log(response.data)
+      try {
+        await AuthenticationService.register({
+          email: this.email,
+          password: this.password
+        })
+        this.error = null
+      } catch (error) {
+        this.error = error.response.data.error
+      }
     }
   }
 }
@@ -45,5 +51,8 @@ li {
 }
 a {
   color: #42b983;
+}
+.class {
+  color: red;
 }
 </style>
