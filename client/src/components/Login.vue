@@ -1,25 +1,24 @@
 <template>
-  <div>
-    <v-alert :value="errorType === 2" type="success"  transition="slide-y-transition">注册成功</v-alert>
+<div>
+    <v-alert :value="errorType === 2" type="success"  transition="slide-y-transition">登录成功</v-alert>
     <v-alert :value="errorType === 1" type="warning" transition="slide-y-transition">{{this.error}}</v-alert>
     <v-container>
       <v-layout align-center justify-center>
         <v-flex md6>
-          <div class="white elevation-0">
+          <div class="white elevation-2" column>
             <v-toolbar flat>
-              <v-toolbar-title>注册</v-toolbar-title>
+              <v-toolbar-title>登录</v-toolbar-title>
             </v-toolbar>
             <v-layout column class="pl-4 pr-4 pt-2 pb-2">
               <v-text-field type="email" v-model="email" placeholder="email"></v-text-field>
               <v-text-field type="password" v-model="password" placeholder="password"></v-text-field>
-              <v-text-field type="password" v-model="repassword" placeholder="repassword"></v-text-field>
-              <v-btn color="primary" @click="register">注册</v-btn>
+              <v-btn color="primary" @click="login">登录</v-btn>
             </v-layout>
           </div>
         </v-flex>
       </v-layout>
     </v-container>
-  </div>
+</div>
 </template>
 
 <script>
@@ -30,35 +29,29 @@ export default {
     return {
       email: '',
       password: '',
-      repassword: '',
       errorType: 0,
       error: null
     }
   },
   methods: {
-    async register () {
-      if (!this.password || !this.repassword || !this.email) {
+    async login () {
+      if (!this.email || !this.password) {
+        this.errorType = 1
         this.error = '请完整填写信息'
-        this.errorType = 1
-      } else if (this.password !== this.repassword) {
-        this.error = '两次输入的密码不一致'
-        this.errorType = 1
       } else {
         try {
-          await AuthenticationService.register({
+          await AuthenticationService.login({
             email: this.email,
             password: this.password
           })
-          this.error = null
           this.errorType = 2
+          this.error = null
         } catch (error) {
-          console.log(error.response.data.error)
-          this.error = error.response.data.error || '网络故障'
+          this.error = error.response.data.error
           this.errorType = 1
         }
       }
       setTimeout(() => {
-        console.log(this.errorType)
         this.errorType = 0
       }, 2000)
     }

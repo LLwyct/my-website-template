@@ -1,15 +1,22 @@
 <template>
   <div id="app">
   <v-app>
-    <!-- <img src="./assets/logo.png"> -->
+    <Header></Header>
     <router-view/>
+    <Footer></Footer>
   </v-app>
   </div>
 </template>
 
 <script>
+import Header from './components/Header'
+import Footer from './components/Footer'
 
 export default {
+  components: {
+    Header,
+    Footer
+  },
   name: 'App'
 }
 </script>

@@ -2,6 +2,8 @@ const joi = require('joi')
 
 module.exports = {
     register(req, res, next) {
+        console.log('register policy');
+        
         // 定义一个验证格式
         const schema = {
             email: joi.string().email(),
@@ -20,12 +22,15 @@ module.exports = {
             switch (error.details[0].context.key) {
                 // 邮箱错误的报错
                 case 'email':
+                    console.log('邮箱格式错误');
+                    
                     res.status(400).send({
                         error: '请验证邮箱格式'
                     })
                     break
                 // 密码错误
                 case 'password':
+                console.log('密码格式错误');
                     res.status(400).send({
                         error: '密码必须由8至32位的a-z、A-Z、0-9组成'
                     })
@@ -38,6 +43,7 @@ module.exports = {
             }
         }
         else {
+            console.log('policy has finshed');
             next()
         }
     }
