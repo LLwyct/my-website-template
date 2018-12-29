@@ -17,3 +17,8 @@ sequelize.sync()
     .then(() => {
         app.listen(config.port)
     })
+
+// sequelize.sync({force:true})
+//     .then(() => {
+//         app.listen(config.port)
+//     })

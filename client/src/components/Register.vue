@@ -1,19 +1,19 @@
 <template>
   <div>
-    <v-alert :value="errorType === 2" type="success"  transition="slide-y-transition">注册成功</v-alert>
-    <v-alert :value="errorType === 1" type="warning" transition="slide-y-transition">{{this.error}}</v-alert>
-    <v-container>
+      <v-alert style="height:30px;" v-bind:class="{hidden: !isShow}" v-bind="{value: true, color: infoType}">{{this.error}}</v-alert>    <v-container>
       <v-layout align-center justify-center>
         <v-flex md6>
-          <div class="white elevation-0">
+          <div class="white elevation-1" column style="margin-top:-15px;">
             <v-toolbar flat>
               <v-toolbar-title>注册</v-toolbar-title>
             </v-toolbar>
             <v-layout column class="pl-4 pr-4 pt-2 pb-2">
-              <v-text-field type="email" v-model="email" placeholder="email"></v-text-field>
-              <v-text-field type="password" v-model="password" placeholder="password"></v-text-field>
-              <v-text-field type="password" v-model="repassword" placeholder="repassword"></v-text-field>
+              <form>
+              <v-text-field type="email" v-model="email" placeholder="email" autocomplete="off"></v-text-field>
+              <v-text-field type="password" v-model="password" placeholder="password" autocomplete="newword"></v-text-field>
+              <v-text-field type="password" v-model="repassword" placeholder="repassword" autocomplete="newword"></v-text-field>
               <v-btn color="primary" @click="register">注册</v-btn>
+              </form>
             </v-layout>
           </div>
         </v-flex>
@@ -31,35 +31,38 @@ export default {
       email: '',
       password: '',
       repassword: '',
-      errorType: 0,
+      infoType: 'success',
+      isShow: false,
       error: null
     }
   },
   methods: {
     async register () {
       if (!this.password || !this.repassword || !this.email) {
+        this.infoType = 'warning'
         this.error = '请完整填写信息'
-        this.errorType = 1
       } else if (this.password !== this.repassword) {
         this.error = '两次输入的密码不一致'
-        this.errorType = 1
+        this.infoType = 'warning'
       } else {
         try {
-          await AuthenticationService.register({
+          const response = await AuthenticationService.register({
             email: this.email,
             password: this.password
           })
-          this.error = null
-          this.errorType = 2
+          this.$store.dispatch('setToken', response.data.token)
+          this.$store.dispatch('setUser', response.data.user)
+          this.error = '注册成功'
+          this.infoType = 'success'
         } catch (error) {
-          console.log(error.response.data.error)
           this.error = error.response.data.error || '网络故障'
-          this.errorType = 1
+          this.infoType = 'warning'
         }
       }
+      this.isShow = true
       setTimeout(() => {
         console.log(this.errorType)
-        this.errorType = 0
+        this.isShow = false
       }, 2000)
     }
   }
@@ -70,5 +73,8 @@ export default {
 <style scoped>
 .class {
   color: red;
+}
+.hidden {
+  visibility: hidden;
 }
 </style>

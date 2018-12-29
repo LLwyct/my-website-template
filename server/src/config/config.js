@@ -20,5 +20,8 @@ module.exports = {
                 $like: Op.like
             }
         }
+    },
+    authentication: {
+        jwtSecret: process.env.JWT_SECRET || 'secret'
     }
 }

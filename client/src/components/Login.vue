@@ -1,11 +1,10 @@
 <template>
 <div>
-    <v-alert :value="errorType === 2" type="success"  transition="slide-y-transition">登录成功</v-alert>
-    <v-alert :value="errorType === 1" type="warning" transition="slide-y-transition">{{this.error}}</v-alert>
+    <v-alert style="height:30px;" v-bind:class="{hidden: !isShow}" v-bind="{value: true, color: infoType}">{{this.error}}</v-alert>
     <v-container>
       <v-layout align-center justify-center>
         <v-flex md6>
-          <div class="white elevation-2" column>
+          <div class="white elevation-1" column style="margin-top:-15px;">
             <v-toolbar flat>
               <v-toolbar-title>登录</v-toolbar-title>
             </v-toolbar>
@@ -29,30 +28,34 @@ export default {
     return {
       email: '',
       password: '',
-      errorType: 0,
+      infoType: 'success',
+      isShow: false,
       error: null
     }
   },
   methods: {
     async login () {
       if (!this.email || !this.password) {
-        this.errorType = 1
+        this.infoType = 'warning'
         this.error = '请完整填写信息'
       } else {
         try {
-          await AuthenticationService.login({
+          const response = await AuthenticationService.login({
             email: this.email,
             password: this.password
           })
-          this.errorType = 2
-          this.error = null
+          this.$store.dispatch('setToken', response.data.token)
+          this.$store.dispatch('setUser', response.data.user)
+          this.infoType = 'success'
+          this.error = '登录成功'
         } catch (error) {
           this.error = error.response.data.error
-          this.errorType = 1
+          this.infoType = 'error'
         }
       }
+      this.isShow = true
       setTimeout(() => {
-        this.errorType = 0
+        this.isShow = false
       }, 2000)
     }
   }
@@ -63,5 +66,8 @@ export default {
 <style scoped>
 .class {
   color: red;
+}
+.hidden {
+  visibility: hidden;
 }
 </style>
