@@ -2,7 +2,7 @@
   <div>
       <v-alert style="height:30px;" v-bind:class="{hidden: !isShow}" v-bind="{value: true, color: infoType}">{{this.error}}</v-alert>    <v-container>
       <v-layout align-center justify-center>
-        <v-flex md6>
+        <v-flex xs12 md6 lg4>
           <div class="white elevation-1" column style="margin-top:-15px;">
             <v-toolbar flat>
               <v-toolbar-title>注册</v-toolbar-title>

@@ -3,15 +3,17 @@
     <v-alert style="height:30px;" v-bind:class="{hidden: !isShow}" v-bind="{value: true, color: infoType}">{{this.error}}</v-alert>
     <v-container>
       <v-layout align-center justify-center>
-        <v-flex md6>
+        <v-flex xs12 md6 lg4>
           <div class="white elevation-1" column style="margin-top:-15px;">
             <v-toolbar flat>
               <v-toolbar-title>登录</v-toolbar-title>
             </v-toolbar>
             <v-layout column class="pl-4 pr-4 pt-2 pb-2">
+              <form>
               <v-text-field type="email" v-model="email" placeholder="email"></v-text-field>
               <v-text-field type="password" v-model="password" placeholder="password"></v-text-field>
               <v-btn color="primary" @click="login">登录</v-btn>
+              </form>
             </v-layout>
           </div>
         </v-flex>
