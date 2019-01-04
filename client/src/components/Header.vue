@@ -1,8 +1,11 @@
 <template>
 <div>
-  <v-toolbar flat color="blue" height="64px">
+  <v-toolbar flat height="64px">
     <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
     <router-link to="/home" tag="v-toolbar-title" class="home">Outsider</router-link>
+    <v-toolbar-items class="hidden-sm-and-down ml-4" v-if="!$store.state.isUserLoggedIn">
+      <v-btn to="/song" flat replace class="nav-btn">Broswer</v-btn>
+    </v-toolbar-items>
     <v-spacer></v-spacer>
     <v-toolbar-items class="hidden-sm-and-down" v-if="!$store.state.isUserLoggedIn">
       <v-btn to="/home" flat replace class="nav-btn">首页</v-btn>
@@ -16,27 +19,16 @@
   </v-toolbar>
   <div class="hidden-md-and-up">
     <v-navigation-drawer v-model="drawer" absolute app>
-      <v-list class="pa-1">
-        <v-list-tile avatar>
-          <v-list-tile-avatar>
-            <img src="https://randomuser.me/api/portraits/men/85.jpg">
-          </v-list-tile-avatar>
-          <v-list-tile-content>
-            <v-list-tile-title>John Leider</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
-      <v-list class="pt-0" dense>
-        <v-divider></v-divider>
-        <v-list-tile v-for="item in items" :key="item.title">
-          <v-list-tile-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
+      <v-list dense class="pt-0">
+      <v-list-tile v-for="item in items" :key="item.title" :to="{path:item.title}">
+        <v-list-tile-action>
+          <v-icon>{{ item.icon }}</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
+    </v-list>
     </v-navigation-drawer>
   </div>
 </div>
@@ -46,11 +38,13 @@
 export default {
   data () {
     return {
-      drawer: null,
       items: [
-        { title: 'Home', icon: 'dashboard' },
-        { title: 'About', icon: 'question_answer' }
-      ]
+        { title: 'home', icon: 'fa-home' },
+        { title: 'login', icon: 'fa-sign-in-alt' },
+        { title: 'register', icon: 'fa-user-plus' },
+        { title: 'logout', icon: 'fa-sign-out-alt' }
+      ],
+      drawer: null
     }
   },
   methods: {
@@ -74,5 +68,8 @@ export default {
 }
 .nav-btn{
   font-size: 18px;
+}
+.side-bar-btn{
+  width: 100%;
 }
 </style>
