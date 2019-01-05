@@ -1,6 +1,6 @@
 <template>
 <div>
-  <v-toolbar flat height="64px">
+  <v-toolbar flat height="64px" color="grey lighten-3">
     <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
     <router-link to="/home" tag="v-toolbar-title" class="home">Outsider</router-link>
     <v-toolbar-items class="hidden-sm-and-down ml-4" v-if="!$store.state.isUserLoggedIn">
@@ -62,9 +62,11 @@ export default {
 <style scoped>
 .home {
   cursor: pointer;
+  transition: 0.15s
 }
 .home:hover {
   color: darkslateblue;
+  transform: scale(1.3)
 }
 .nav-btn{
   font-size: 18px;

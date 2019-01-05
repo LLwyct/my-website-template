@@ -1,7 +1,6 @@
 <template>
-<div>
-    <v-alert style="height:30px;" v-bind:class="{hidden: !isShow}" v-bind="{value: true, color: infoType}">{{this.error}}</v-alert>
     <v-container>
+    <v-alert style="height:30px;" v-bind:class="{hidden: !isShow}" v-bind="{value: true, color: infoType}">{{this.error}}</v-alert>
       <v-layout align-center justify-center>
         <v-flex xs12 md6 lg4>
           <panel paneltitle="登录">
@@ -12,7 +11,6 @@
         </v-flex>
       </v-layout>
     </v-container>
-</div>
 </template>
 
 <script>
@@ -48,8 +46,14 @@ export default {
           this.infoType = 'success'
           this.error = '登录成功'
         } catch (error) {
-          this.error = error.response.data.error
-          this.infoType = 'error'
+          try {
+            this.error = error.response.data.error
+            this.infoType = 'error'
+          } catch (error) {
+            this.$router.push({
+              name: 'error'
+            })
+          }
         }
       }
       this.isShow = true

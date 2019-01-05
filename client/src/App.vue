@@ -29,4 +29,9 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
+.application--wrap{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 </style>
